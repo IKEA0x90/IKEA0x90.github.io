@@ -4,6 +4,10 @@
     <title>Pondering my orbs</title>
     <style>
         /* Add your CSS styles here */
+        body {
+            background-image: url('background.jpg');
+            background-size: cover;
+        }
         .circle {
             position: absolute;
             width: 50px;
@@ -88,7 +92,7 @@
             var color2 = c2.style.backgroundColor.match(/\d+/g).map(Number);
 
             var mixedColor = color1.map(function(c, i) {
-                return Math.min(Math.round((c + color2[i]) / 2), 255);
+                return Math.min(Math.round((c + color2[i])), 255);
             });
 
             return 'rgb(' + mixedColor.join(',') + ')';
@@ -111,11 +115,11 @@
 
                         if (textElement.classList.contains('left')) {
                             circle.style.backgroundColor = 'rgb(' + color.map(function(c) {
-                                return Math.max(c - 64, 0);
+                                return Math.max(c - 255 * 0.25, 0);
                             }).join(',') + ')';
                         } else if (textElement.classList.contains('right')) {
                             circle.style.backgroundColor = 'rgb(' + color.map(function(c) {
-                                return Math.min(c + 64, 255);
+                                return Math.min(c + 255 * 0.25, 255);
                             }).join(',') + ')';
                         }
                     }

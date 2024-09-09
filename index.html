@@ -1,131 +1,25 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Pondering my orbs</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FF0000</title>
     <style>
-        /* Add your CSS styles here */
-        body {
-            background-image: url('background.jpg');
-            background-size: cover;
-        }
-        .circle {
-            position: absolute;
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            opacity: 0.5;
-            cursor: move;
-        }
-        .annulus {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 200px;
-            height: 200px;
-            margin-top: -100px;
-            margin-left: -100px;
-            border: 50px solid black;
-            border-radius: 50%;
-        }
-        .text-element {
-            position: absolute;
-            top: 50%;
-            font-size: 20px;
-            cursor: pointer;
+        body, html {
+            margin: 0;
+            height: 100%;
+            overflow: auto;
+            background-color: red;
         }
 
-        .text-element.left {
-            left: 10%;
-        }
-
-        .text-element.right {
-            right: 10%;
+        .scrollable {
+            width: 200vw;  /* Twice the width of the viewport */
+            height: 200vh; /* Twice the height of the viewport */
+            overflow: auto;
         }
     </style>
 </head>
 <body>
-    <svg id="canvas">
-        <!-- Your circles and annulus will be appended here -->
-        <div class="annulus"></div>
-        <div class="circle" style="background-color: rgb(255, 0, 0);"></div>
-        <div class="circle" style="background-color: rgb(0, 255, 0);"></div>
-        <div class="circle" style="background-color: rgb(0, 0, 255);"></div>
-        <div class="circle" style="background-color: rgb(255, 0, 0);"></div>
-        <div class="circle" style="background-color: rgb(0, 255, 0);"></div>
-        <div class="circle" style="background-color: rgb(0, 0, 255);"></div>
-        <div class="circle" style="background-color: rgb(255, 255, 0);"></div>
-        <div class="circle" style="background-color: rgb(0, 255, 255);"></div>
-        <div class="circle" style="background-color: rgb(255, 0, 255);"></div>
-        <div class="circle" style="background-color: rgb(255, 255, 255);"></div>
-        <!-- Add more circles as needed -->
-        <div class="text-element left">Decrease color</div>
-        <div class="text-element right">Increase color</div>
-    </svg>
-
-    <script>
-        // Define your circles, annulus, and text elements here
-
-        var circles = document.querySelectorAll('.circle');
-        var annulus = document.querySelector('.annulus');
-        var textElements = document.querySelectorAll('.text-element');
-
-        // Function for dragging the circles
-        circles.forEach(function(circle) {
-            circle.addEventListener('mousedown', function(e) {
-                e.preventDefault();
-
-                var mouseMoveHandler = function(e) {
-                    circle.style.left = e.pageX - circle.offsetWidth / 2 + 'px';
-                    circle.style.top = e.pageY - circle.offsetHeight / 2 + 'px';
-                };
-
-                document.addEventListener('mousemove', mouseMoveHandler);
-                document.addEventListener('mouseup', function() {
-                    document.removeEventListener('mousemove', mouseMoveHandler);
-                }, { once: true });
-            });
-        });
-
-        // Function for changing the color of the circles
-        function mixColors(c1, c2) {
-            var color1 = c1.style.backgroundColor.match(/\d+/g).map(Number);
-            var color2 = c2.style.backgroundColor.match(/\d+/g).map(Number);
-
-            var mixedColor = color1.map(function(c, i) {
-                return Math.min(Math.round((c + color2[i])), 255);
-            });
-
-            return 'rgb(' + mixedColor.join(',') + ')';
-        }
-
-        circles.forEach(function(c1) {
-            circles.forEach(function(c2) {
-                if (c1 !== c2 && c1.getBoundingClientRect().intersects(c2.getBoundingClientRect())) {
-                    c1.style.backgroundColor = mixColors(c1, c2);
-                }
-            });
-        });
-
-        // Function for handling the click on the text elements
-        textElements.forEach(function(textElement) {
-            textElement.addEventListener('click', function() {
-                circles.forEach(function(circle) {
-                    if (annulus.getBoundingClientRect().contains(circle.getBoundingClientRect())) {
-                        var color = circle.style.backgroundColor.match(/\d+/g).map(Number);
-
-                        if (textElement.classList.contains('left')) {
-                            circle.style.backgroundColor = 'rgb(' + color.map(function(c) {
-                                return Math.max(c - 255 * 0.25, 0);
-                            }).join(',') + ')';
-                        } else if (textElement.classList.contains('right')) {
-                            circle.style.backgroundColor = 'rgb(' + color.map(function(c) {
-                                return Math.min(c + 255 * 0.25, 255);
-                            }).join(',') + ')';
-                        }
-                    }
-                });
-            });
-        });
-    </script>
+    <div class="scrollable"></div>
 </body>
 </html>
